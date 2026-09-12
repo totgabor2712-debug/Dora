@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eljössz velem randizni? ❤️</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      max-width: 450px;
+      width: 100%;
+      position: relative;
+    }
+
+    h1 {
+      color: #e91e63;
+      margin-bottom: 20px;
+      font-size: 26px;
+    }
+
+    .gif-container img {
+      width: 150px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
+      min-height: 80px;
+      position: relative;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.15s ease;
+    }
+
+    .btn-yes {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .btn-yes:hover {
+      background-color: #45a049;
+      transform: scale(1.1);
+    }
+
+    .btn-no {
+      background-color: #f44336;
+      color: white;
+      position: relative;
+    }
+
+    #step2, #step3 {
+      display: none;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: #e91e63;
+      color: white;
+      margin-top: 15px;
+    }
+
+    .submit-btn:hover {
+      background-color: #d81b60;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <!-- 1. LÉPÉS: A KÉRDÉS -->
+    <div id="step1">
+      <div class="gif-container">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3A1dTZwYjR3b3d4ZGVxOWEybzZxaXF3bHZyNmsyYnN0Znp2ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cuki maci">
+      </div>
+      <h1>Eljössz velem randizni? ❤️</h1>
+      <div class="btn-group" id="btnGroup">
+        <button class="btn-yes" onclick="nextStep()">IGEN! 🥰</button>
+        <button class="btn-no" id="noBtn">Nem 😢</button>
+      </div>
+    </div>
+
+    <!-- 2. LÉPÉS: PROGRAM ÉS IDŐPONT VÁLASZTÁS -->
+    <div id="step2">
+      <h1>Szuper! Már alig várom! 🎉</h1>
+      <p style="margin-bottom: 20px; color: #666;">Válaszd ki, mikor és mit csináljunk:</p>
+
+      <form action="https://formspree.io/f/xnpqreez" method="POST" onsubmit="showThanks()">
+        
+        <div class="form-group">
+          <label for="date">Melyik napon?</label>
+          <input type="date" id="date" name="Nap" required>
+        </div>
+
+        <div class="form-group">
+          <label for="time">Hány órakor?</label>
+          <input type="time" id="time" name="Időpont" required>
+        </div>
+
+        <div class="form-group">
+          <label for="activity">Mit csináljunk?</label>
+          <select id="activity" name="Program" required>
+            <option value="Mozi + Popcorn 🍿">Mozi + Popcorn 🍿</option>
+            <option value="Romantikus ebéd / vacsora 🍝">Romantikus ebéd / vacsora 🍝</option>
+            <option value="Kávé és séta a városban ☕">Kávé és séta a városban ☕</option>
+            <option value="Fagylaltozás 🍦">Fagylaltozás 🍦</option>
+            <option value="Meglepetés program 😉">Meglepetés program 😉</option>
+          </select>
+        </div>
+
+        <button type="submit" class="submit-btn">Küldés 💌</button>
+      </form>
+    </div>
+
+    <!-- 3. LÉPÉS: KÖSZÖNET OLDAL -->
+    <div id="step3">
+      <h1>Minden elmentve! ✨</h1>
+      <p style="font-size: 18px; color: #333;">Értesítést kaptam a válaszaidról. Hamarosan találkozunk! ❤️</p>
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+
+    function moveButton(evt) {
+      if (evt && evt.preventDefault) {
+        evt.preventDefault();
+      }
+
+      // Változtatjuk az elhelyezkedését abszolútra az első megközelítéskor
+      noBtn.style.position = 'absolute';
+
+      const card = document.querySelector('.card');
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const maxX = (cardRect.width / 2) - (btnRect.width / 2) - 20;
+      const maxY = (cardRect.height / 2) - (btnRect.height / 2) - 20;
+
+      const randomX = (Math.random() * maxX * 2) - maxX;
+      const randomY = (Math.random() * maxY * 2) - maxY;
+
+      noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    noBtn.addEventListener('mouseover', moveButton);
+    noBtn.addEventListener('touchstart', moveButton, { passive: false });
+    noBtn.addEventListener('click', moveButton);
+
+    function nextStep() {
+      document.getElementById('step1').style.display = 'none';
+      document.getElementById('step2').style.display = 'block';
+    }
+
+    function showThanks() {
+      setTimeout(() => {
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('step3').style.display = 'block';
+      }, 500);
+    }
+  </script>
+</body>
+</html>
